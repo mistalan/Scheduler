@@ -53,6 +53,14 @@ function isSameDay(appointment, day) {
   return appointment.startAt.startsWith(`${day}T`);
 }
 
+function getPatientByViewerKey(viewerKey) {
+  return state.patients.find((patient) => patient.viewerKey === viewerKey);
+}
+
+function getPatientByStreamKey(streamKey) {
+  return state.patients.find((patient) => patient.streamKey === streamKey);
+}
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -60,8 +68,8 @@ app.get('/api/bootstrap', (_request, response) => {
   response.json(serializeState(state));
 });
 
-app.get('/api/patients/:patientId', (request, response) => {
-  const patient = state.patients.find(({ id }) => id === request.params.patientId);
+app.post('/api/patient-view', (request, response) => {
+  const patient = getPatientByViewerKey(request.body.viewerKey);
 
   if (!patient) {
     return response.status(404).json({ error: 'Patient not found.' });
@@ -74,14 +82,14 @@ app.get('/api/patients/:patientId', (request, response) => {
   });
 });
 
-app.get('/api/patients/:patientId/stream', (request, response) => {
-  const patientId = request.params.patientId;
-  const patient = state.patients.find(({ id }) => id === patientId);
+app.get('/api/patient-streams/:streamKey', (request, response) => {
+  const patient = getPatientByStreamKey(request.params.streamKey);
 
   if (!patient) {
     return response.status(404).json({ error: 'Patient not found.' });
   }
 
+  const patientId = patient.id;
   response.setHeader('Content-Type', 'text/event-stream');
   response.setHeader('Cache-Control', 'no-cache, no-transform');
   response.setHeader('Connection', 'keep-alive');
@@ -211,14 +219,6 @@ app.delete('/api/appointments/:appointmentId', (request, response) => {
   });
 
   return response.status(204).end();
-});
-
-app.use((request, response, next) => {
-  if (request.path.startsWith('/api/')) {
-    return next();
-  }
-
-  response.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const port = process.env.PORT || 3000;

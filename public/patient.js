@@ -1,5 +1,8 @@
-async function fetchJson(url) {
-  const response = await fetch(url);
+async function fetchJson(url, options) {
+  const response = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+  });
 
   if (!response.ok) {
     const payload = await response.json().catch(() => ({ error: 'Request failed.' }));
@@ -21,6 +24,10 @@ function renderPatientOptions() {
     .map((patient) => `<option value="${patient.id}">${patient.name}</option>`)
     .join('');
   selector.value = state.selectedPatientId;
+}
+
+function getSelectedPatient() {
+  return state.bootstrap.patients.find((patient) => patient.id === state.selectedPatientId);
 }
 
 function renderAppointments(appointments) {
@@ -66,7 +73,10 @@ function renderNotifications(notifications) {
 }
 
 async function loadPatient() {
-  const payload = await fetchJson(`/api/patients/${state.selectedPatientId}`);
+  const payload = await fetchJson('/api/patient-view', {
+    method: 'POST',
+    body: JSON.stringify({ viewerKey: getSelectedPatient().viewerKey }),
+  });
   renderAppointments(payload.appointments.filter((appointment) => appointment.status !== 'cancelled'));
   renderNotifications(payload.notifications);
 }
@@ -77,7 +87,7 @@ function connectStream() {
   }
 
   const status = document.querySelector('#connection-status');
-  state.stream = new EventSource(`/api/patients/${state.selectedPatientId}/stream`);
+  state.stream = new EventSource(`/api/patient-streams/${getSelectedPatient().streamKey}`);
   status.textContent = 'Live';
   status.classList.remove('pill-muted');
 
@@ -110,5 +120,6 @@ async function init() {
 }
 
 init().catch((error) => {
-  document.querySelector('#patient-notifications').innerHTML = `<p>${error.message}</p>`;
+  const host = document.querySelector('#patient-notifications');
+  host.textContent = error.message;
 });

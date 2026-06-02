@@ -2,8 +2,18 @@ function createInitialState() {
   return {
     defaultDay: '2026-06-03',
     patients: [
-      { id: 'patient-anna', name: 'Anna Becker' },
-      { id: 'patient-felix', name: 'Felix Novak' },
+      {
+        id: 'patient-anna',
+        name: 'Anna Becker',
+        viewerKey: 'viewer-anna-01',
+        streamKey: 'stream-anna-01',
+      },
+      {
+        id: 'patient-felix',
+        name: 'Felix Novak',
+        viewerKey: 'viewer-felix-01',
+        streamKey: 'stream-felix-01',
+      },
     ],
     appointmentTypes: [
       { id: 'medical-sports-training', name: 'Medical Sports Training', durationMinutes: 60 },
