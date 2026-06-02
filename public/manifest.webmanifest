@@ -1,0 +1,9 @@
+{
+  "name": "Clinic Scheduler",
+  "short_name": "Scheduler",
+  "start_url": "/patient.html",
+  "display": "standalone",
+  "background_color": "#eef3f8",
+  "theme_color": "#1f5e8c",
+  "icons": []
+}

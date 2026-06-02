@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scheduler Admin</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="panel">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Admin board</p>
+            <h1>Maintain patient plans</h1>
+          </div>
+          <a class="button button-secondary" href="/patient.html">Patient app</a>
+        </div>
+
+        <div class="grid two-column">
+          <label>
+            Patient
+            <select id="patient-select"></select>
+          </label>
+          <label>
+            Day
+            <input id="day-input" type="date" />
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="auto-plan-button" class="button">Auto-generate rehab day</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Add or rebook an appointment</h2>
+        <form id="appointment-form" class="grid two-column">
+          <label>
+            Therapy
+            <select id="type-select"></select>
+          </label>
+          <label>
+            Start
+            <input id="start-input" type="datetime-local" required />
+          </label>
+          <label>
+            Therapist
+            <select id="therapist-select"></select>
+          </label>
+          <label>
+            Room
+            <select id="room-select"></select>
+          </label>
+          <button class="button" type="submit">Save appointment</button>
+        </form>
+        <p id="admin-message" class="status"></p>
+      </section>
+
+      <section class="panel">
+        <div class="section-header">
+          <h2>Current plan</h2>
+          <span class="pill">Realtime patient notifications enabled</span>
+        </div>
+        <div id="appointments"></div>
+      </section>
+    </main>
+    <script src="/admin.js" defer></script>
+  </body>
+</html>

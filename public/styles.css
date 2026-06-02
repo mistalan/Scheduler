@@ -1,0 +1,169 @@
+:root {
+  color-scheme: light;
+  font-family: Arial, sans-serif;
+  line-height: 1.4;
+  background: #eef3f8;
+  color: #1b2838;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #eef3f8 0%, #dde7f1 100%);
+}
+
+.layout,
+.hero {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.landing {
+  display: grid;
+  place-items: center;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: 0 12px 32px rgba(31, 94, 140, 0.1);
+}
+
+.section-header,
+.actions,
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.two-column {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+label,
+.install-note {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #c8d4e0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #1f5e8c;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button-secondary {
+  background: #edf4fa;
+  color: #1f5e8c;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #dceefd;
+  color: #1f5e8c;
+  font-size: 0.9rem;
+}
+
+.pill-muted {
+  background: #eceff3;
+  color: #5d6d7e;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1f5e8c;
+  font-size: 0.8rem;
+  margin: 0 0 8px;
+}
+
+.card,
+.notification {
+  border: 1px solid #d7e3ef;
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+  background: #fbfdff;
+}
+
+.card h3,
+.notification strong,
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+  margin-top: 12px;
+}
+
+.inline-form label {
+  min-width: 180px;
+}
+
+.status {
+  min-height: 1.5em;
+  color: #1f5e8c;
+}
+
+@media (max-width: 640px) {
+  .section-header,
+  .actions,
+  .card-header,
+  .inline-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

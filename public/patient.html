@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1f5e8c" />
+    <title>My Rehab Plan</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="panel">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Patient app</p>
+            <h1>My schedule</h1>
+          </div>
+          <a class="button button-secondary" href="/admin.html">Admin board</a>
+        </div>
+
+        <div class="grid two-column">
+          <label>
+            Patient
+            <select id="patient-selector"></select>
+          </label>
+          <div class="install-note">
+            Install this page on Android to use it like an app and receive live schedule updates while it is open.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-header">
+          <h2>Today&apos;s appointments</h2>
+          <span id="connection-status" class="pill pill-muted">Connecting…</span>
+        </div>
+        <div id="patient-appointments"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Latest updates</h2>
+        <div id="patient-notifications"></div>
+      </section>
+    </main>
+    <script src="/patient.js" defer></script>
+  </body>
+</html>
