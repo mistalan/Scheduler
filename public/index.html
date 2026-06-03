@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1f5e8c" />
+    <title>Clinic Scheduler</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="landing">
+    <main class="panel hero">
+      <p class="eyebrow">Clinical rehab scheduler</p>
+      <h1>Coordinate therapy plans and notify patients immediately.</h1>
+      <p>
+        This lightweight prototype provides a patient-facing installable web app for Android devices
+        and an admin board for clinic staff.
+      </p>
+      <div class="actions">
+        <a class="button" href="/patient.html">Open patient app</a>
+        <a class="button button-secondary" href="/admin.html">Open admin board</a>
+      </div>
+    </main>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }
+    </script>
+  </body>
+</html>
