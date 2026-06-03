@@ -49,4 +49,6 @@ The patient web app is a TWA-ready PWA. To package it as an APK:
 1. Host the app over HTTPS.
 2. Use [Bubblewrap](https://github.com/nicokosi/nicokosi.github.io/blob/master/posts/2020-04-23-building-a-twa-with-bubblewrap.md)
    or [PWABuilder](https://www.pwabuilder.com/) to generate a Trusted Web Activity wrapper.
-3. Sign and distribute the APK.
+3. Publish the signed APK to Google Play.
+4. Generate a QR code linking to the Play Store listing — print it alongside each
+   patient's one-time activation code on their admission sheet.

@@ -4,9 +4,10 @@
 
 A clinical rehab scheduler that lets clinic staff manage daily therapy plans
 for patients and pushes every change to the patient's device in real time.
-The patient-facing side is an installable web app designed for Android
-tablets and phones carried around the clinic; the admin side is a lightweight
-board used by reception or therapy coordinators.
+Patients install the app on their own phones or tablets from Google Play
+(reached via a QR code handed out at admission) and activate it with a
+one-time code printed on paper. The admin side is a lightweight board used
+by reception or therapy coordinators.
 
 ---
 
@@ -16,9 +17,9 @@ board used by reception or therapy coordinators.
 |-------|--------|-----|
 | Runtime | **Node.js 20+** | Single-language stack keeps the project small; the built-in `node:test` runner removes the need for external test frameworks. |
 | HTTP framework | **Express 5** | Minimal surface area for a REST + SSE server; v5 improves async error handling over v4. |
-| Client app | **Vanilla JS + PWA** | No build step, no bundler, no framework dependency — the patient app runs on locked-down clinic Android devices where a simple `Add to Home Screen` install is all that is available. |
+| Client app | **Vanilla JS + PWA** | No build step, no bundler, no framework dependency — patients install the app on their own Android phones/tablets via Google Play. A vanilla stack keeps the TWA wrapper thin and avoids native toolchain requirements. |
 | Real-time channel | **Server-Sent Events (SSE)** | One-directional push from server to patient is sufficient; SSE is natively supported by every modern browser and reconnects automatically, unlike WebSockets which add bidirectional complexity that is not needed here. |
-| Packaging (Android) | **Trusted Web Activity (TWA) via Bubblewrap** | Wraps the PWA in a thin Android shell for Google Play or side-loading without rewriting UI in Kotlin/Java. The manifest and service worker make the app TWA-eligible. |
+| Packaging (Android) | **Trusted Web Activity (TWA) via Bubblewrap** | Wraps the PWA in a thin Android shell for distribution through Google Play, so patients can install it like any regular app from a QR code link. No Kotlin/Java rewrite required; the manifest and service worker make the app TWA-eligible. |
 | Hosting | **Any Node.js-capable host (PM2, systemd, Docker, or behind a reverse proxy such as Kestrel, nginx, or Caddy)** | Express binds to a single port; a reverse proxy in front handles TLS termination, compression, and process supervision. |
 
 ---
@@ -67,15 +68,23 @@ API requests bypass the cache entirely to guarantee fresh data on every load.
 open instantly even on a flaky connection, while API data is always
 authoritative from the server.
 
+### One-time code onboarding
+
+Patients receive a printed QR code at admission that links to the app in
+Google Play. After installing, they enter a one-time code (also on the
+printout) to pair the app with their patient record. This replaces full
+authentication while keeping the onboarding frictionless for non-technical
+users.
+
 ### Viewer key / stream key separation
 
 Each patient has two opaque tokens: a `viewerKey` for fetching their
 schedule and a `streamKey` for opening an SSE connection.
 
 **Why:** Separating read credentials from the streaming endpoint allows
-the SSE URL to be stable and bookmarkable without exposing the data-fetch
-token in the browser's address bar or EventSource URL, providing a minimal
-access-control boundary without full authentication.
+the SSE URL to be stable without exposing the data-fetch token in the
+EventSource URL, providing an access-control boundary that complements the
+one-time code registration.
 
 ---
 
@@ -109,8 +118,9 @@ docs/
 1. Serve the app over HTTPS (required for TWA).
 2. Use [Bubblewrap](https://github.com/nicokosi/nicokosi.github.io/blob/master/posts/2020-04-23-building-a-twa-with-bubblewrap.md) or [PWABuilder](https://www.pwabuilder.com/) to
    generate a TWA wrapper that points to the hosted PWA URL.
-3. Sign the APK and distribute via Google Play or side-load onto clinic
-   devices.
+3. Sign the APK and publish to Google Play.
+4. Generate a QR code linking to the Play Store listing — print it on
+   the patient's admission sheet alongside their one-time activation code.
 
 ### Server → production host
 
